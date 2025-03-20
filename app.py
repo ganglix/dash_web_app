@@ -2,6 +2,7 @@ import dash
 from dash import html, dcc, Input, Output
 import plotly.express as px
 import pandas as pd
+import os
 
 # Sample data for demonstration
 df = pd.DataFrame({
@@ -12,6 +13,7 @@ df = pd.DataFrame({
 
 # Initialize the Dash app
 app = dash.Dash(__name__)
+server = app.server  # Expose the Flask server for deployment
 
 # Define the layout of the app
 app.layout = html.Div([
@@ -55,4 +57,10 @@ def update_graph(selected_city, min_sales):
     return fig
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    if os.environ.get('PORT'):
+        # Running in a hosted environment (e.g., Render)
+        port = int(os.environ.get('PORT'))
+        app.run(debug=True, host='0.0.0.0', port=port)
+    else:
+        # Running locally: defaults to localhost:8050
+        app.run(debug=True)
