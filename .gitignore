@@ -1,0 +1,9 @@
+# Python artifacts
+__pycache__/
+*.pyc
+
+# Virtual environment folder
+venv/
+
+# Docker artifacts
+*.log
